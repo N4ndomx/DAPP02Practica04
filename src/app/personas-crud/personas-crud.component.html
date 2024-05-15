@@ -1,0 +1,73 @@
+<body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <div class="container-lg">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h2>Personas <b>Details</b></h2>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-info add-new" (click)="addNewRow()"><i
+                                    class="fa fa-plus"></i> Add New</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Direcccion</th>
+                            <th>Telefono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of rows; let i = index">
+                            <td>
+                                <span *ngIf="!row.isEditing; else displayName">{{ row.nombre }}</span>
+                                <ng-template #displayName>
+                                    <input type="text" class="form-control" [(ngModel)]="row.nombre">
+                                </ng-template>
+                            </td>
+                            <td>
+                                <span *ngIf="!row.isEditing; else displayDepartment">{{ row.direccion }}</span>
+                                <ng-template #displayDepartment>
+                                    <input type="text" class="form-control" [(ngModel)]="row.direccion">
+                                </ng-template>
+                            </td>
+                            <td>
+                                <span *ngIf="!row.isEditing; else displayPhone">{{ row.telefono }}</span>
+                                <ng-template #displayPhone>
+                                    <input type="text" class="form-control" [(ngModel)]="row.telefono">
+                                </ng-template>
+                            </td>
+                            <td>
+                                <span *ngIf="row.isEditing">
+                                    <a (click)="addRow(row)" class="add " title="Add" data-toggle="tooltip"><i
+                                            class="material-symbols-outlined">&#xe7fe; </i></a>
+                                    <!-- <button class="btn btn-success" (click)="addRow(row)">Save</button> -->
+                                    <a (click)="cancel(row)" class="cancel" title="Cancel" data-toggle="tooltip"><i
+                                            class="material-symbols-outlined">&#xf746; </i></a>
+                                    <!-- <button class="btn btn-secondary" (click)="row.isEditing = false">Cancel</button> -->
+                                </span>
+                                <span *ngIf="!row.isEditing">
+                                    <a (click)="startEdit(row)" class="edit" title="Edit" data-toggle="tooltip"><i
+                                            class="material-symbols-outlined">&#xe3c9; </i></a>
+                                    <!-- <button class="btn btn-primary" (click)="row.isEditing = true">Edit</button> -->
+                                    <a (click)="deleteRow(i)" class="delete" title="Delete" data-toggle="tooltip"><i
+                                            class="material-symbols-outlined">&#xe92b; </i></a>
+                                    <!-- <button class="btn btn-danger" (click)="deleteRow(i)">Delete</button> -->
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
