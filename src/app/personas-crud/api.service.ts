@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
-import { Persona } from './personas.entity';
+import { Empleado } from './personas.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,14 @@ export class ApiService {
 
   // Método para realizar una solicitud GET con Axios
   getPersonas(): Observable<any> {
-    let urlgetpersonas = "/personas"
+    let urlgetpersonas = "/empleados"
     return new Observable(observer => {
-      axios.get(`${this.apiUrl}${urlgetpersonas}`,)
+      axios.get(`${this.apiUrl}${urlgetpersonas}`, {
+        auth: {
+          password: "contrasena",
+          username: "adsoft"
+        }
+      })
         .then((response: AxiosResponse) => {
           observer.next(response.data);
           observer.complete();
@@ -26,11 +31,16 @@ export class ApiService {
   }
 
   // Método para realizar una solicitud POST con Axios
-  postPersona(data: any): Observable<Persona> {
-    let urlpostpersonas = "/personas"
+  postPersona(data: any): Observable<Empleado> {
+    let urlpostpersonas = "/empleados"
 
     return new Observable(observer => {
-      axios.post(`${this.apiUrl}${urlpostpersonas}`, data,)
+      axios.post(`${this.apiUrl}${urlpostpersonas}`, data, {
+        auth: {
+          password: "contrasena",
+          username: "adsoft"
+        }
+      })
         .then((response: AxiosResponse) => {
           observer.next(response.data);
           observer.complete();
@@ -45,7 +55,7 @@ export class ApiService {
   // Método para realizar una solicitud PUT con Axios
   putPersonas(data: any): Observable<any> {
 
-    let url = "/personas/" + data.id
+    let url = "/empleados/" + data.id
     console.log(`${this.apiUrl}${url}`)
 
     return new Observable(observer => {
@@ -62,7 +72,7 @@ export class ApiService {
 
   // Método para realizar una solicitud DELETE con Axios
   deletePersonas(id_persona: string): Observable<any> {
-    let url = "/personas/" + id_persona
+    let url = "/empleados/" + id_persona
     console.log(`${this.apiUrl}${url}`)
     return new Observable(observer => {
       axios.delete(`${this.apiUrl}${url}`)

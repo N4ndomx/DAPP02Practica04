@@ -1,6 +1,6 @@
-export class Persona {
+export class Empleado {
     isEditing = false
-    id: string = ""
+    clave: string = ""
     nombre: string = ""
     direccion: string = ""
     telefono: string = ""

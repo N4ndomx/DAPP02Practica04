@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './api.service';
-import { Persona } from './personas.entity';
+import { Empleado } from './personas.entity';
 
 @Component({
   selector: 'app-personas-crud',
@@ -10,13 +10,13 @@ import { Persona } from './personas.entity';
 export class PersonasCrudComponent implements OnInit {
   constructor(
     private apiService: ApiService) {
-    setInterval(() => {
-      this.printRows();
-    }, 6000);
+    // setInterval(() => {
+    //   this.printRows();
+    // }, 6000);
   }
   ngOnInit(): void {
     const con = this.apiService.getPersonas()
-    con.subscribe((data: Persona[]) => {
+    con.subscribe((data: Empleado[]) => {
       this.rows = data
     }, error => {
       console.error(error);
@@ -27,8 +27,8 @@ export class PersonasCrudComponent implements OnInit {
     console.log(this.rows);
   }
 
-  backupRowData: null | Persona = null
-  cancel(row: Persona) {
+  backupRowData: null | Empleado = null
+  cancel(row: Empleado) {
     console.log(this.rows.indexOf(row) == this.rows.length - 1)
     if (this.rows.indexOf(row) == this.rows.length - 1) {
       this.rows.pop()
@@ -42,22 +42,22 @@ export class PersonasCrudComponent implements OnInit {
 
   }
 
-  rows: Persona[] = [];
+  rows: Empleado[] = [];
 
   addNewRow(): void {
 
-    this.rows.push({ id: '', nombre: '', direccion: '', telefono: '', isEditing: true });
+    this.rows.push({ clave: '', nombre: '', direccion: '', telefono: '', isEditing: true });
   }
 
-  addRow(row: Persona): void {
-    const { id, isEditing, ...data } = row
+  addRow(row: Empleado): void {
+    const { clave, isEditing, ...data } = row
     if (row.nombre && row.direccion && row.telefono) {
-      console.log("--->", row.id, row.id === "")
-      if (row.id === "") {
+      console.log("--->", row.clave, row.clave === "")
+      if (row.clave === "") {
         const con = this.apiService.postPersona({
           ...data
         })
-        con.subscribe((data: Persona) => {
+        con.subscribe((data: Empleado) => {
           this.rows.pop()
           this.rows.push(data)
         }, error => {
@@ -66,21 +66,21 @@ export class PersonasCrudComponent implements OnInit {
         })
       } else {
         this.apiService.putPersonas({
-          id: id,
+          id: clave,
           ...data
         }).subscribe()
       }
       row.isEditing = false;
     }
   }
-  startEdit(row: Persona) {
+  startEdit(row: Empleado) {
     this.backupRowData = { ...row };
     row.isEditing = true; // habilitar la edición
   }
 
   deleteRow(index: number): void {
     const pos = this.rows.splice(index, 1);
-    this.apiService.deletePersonas(pos[0].id).subscribe((data: any) => {
+    this.apiService.deletePersonas(pos[0].clave).subscribe((data: any) => {
     }, error => {
       console.error(error);
       // Maneja el error de alguna manera
