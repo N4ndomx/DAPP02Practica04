@@ -7,7 +7,7 @@ import { Empleado } from './personas.entity';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:8080';
+  private apiUrl = '/api';
   constructor() { }
 
   // Método para realizar una solicitud GET con Axios
